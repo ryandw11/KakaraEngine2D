@@ -75,11 +75,12 @@ public abstract class Abstract2DScene extends AbstractScene {
      */
     @Override
     public void add(GameItem gameItem) {
-        if (gameItem.hasComponent(MeshRenderer2D.class))
+        if (gameItem.hasComponent(MeshRenderer2D.class)){
             if (!item2DHandler.getItems().contains(gameItem))
                 item2DHandler.addItem(gameItem);
-            else
-                super.add(gameItem);
+        }
+        else
+            super.add(gameItem);
     }
 
     /**
