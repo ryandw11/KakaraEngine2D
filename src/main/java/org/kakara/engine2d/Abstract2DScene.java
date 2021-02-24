@@ -40,11 +40,13 @@ import java.util.Timer;
  */
 public abstract class Abstract2DScene extends AbstractScene {
     private final Item2DHandler item2DHandler;
+    private final Camera2D camera2D;
     private final Timer physicsUpdater;
 
     protected Abstract2DScene(GameHandler gameHandler) {
         super(gameHandler);
         this.item2DHandler = new Item2DHandler();
+        this.camera2D = new Camera2D();
 
         if (gameHandler.getGameEngine().getShaderManager().findShader("Standard2D") == null) {
             System.out.println("Test");
@@ -96,6 +98,14 @@ public abstract class Abstract2DScene extends AbstractScene {
             item2DHandler.removeItem(item);
         else
             super.remove(item);
+    }
+
+    /**
+     * <p>Get the Camera responsible for rendering the 2D Objects.</p>
+     * @return The 2D camera.
+     */
+    public Camera2D getCamera2D(){
+        return camera2D;
     }
 
     /**

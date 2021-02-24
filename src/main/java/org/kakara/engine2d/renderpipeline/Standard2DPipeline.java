@@ -2,11 +2,14 @@ package org.kakara.engine2d.renderpipeline;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector2f;
 import org.kakara.engine.Camera;
 import org.kakara.engine.GameHandler;
 import org.kakara.engine.gameitems.GameItem;
+import org.kakara.engine.gameitems.Texture;
 import org.kakara.engine.gameitems.mesh.IMesh;
 import org.kakara.engine.lighting.ShadowMap;
+import org.kakara.engine.math.Vector2;
 import org.kakara.engine.math.Vector3;
 import org.kakara.engine.render.RenderPipeline;
 import org.kakara.engine.render.Shader;
@@ -53,14 +56,26 @@ public class Standard2DPipeline implements RenderPipeline {
         for (GameItem item : abstract2DScene.getItem2DHandler().getItems()) {
             for (IMesh mesh : item.getComponent(MeshRenderer2D.class).getMeshes()) {
                 Mesh2D mesh2D = (Mesh2D) mesh;
-                shaderProgram.setUniform("model", buildModel(item, scene.getCamera()));
+                shaderProgram.setUniform("model", buildModel(item, abstract2DScene.getCamera2D()));
                 shaderProgram.setUniform("material.texture", 0);
                 shaderProgram.setUniform("material.color", mesh2D.getMaterial2D().getColor().getVectorColor());
+                calculateSpriteSheet(item, mesh2D.getMaterial2D().getTexture().get());
                 mesh2D.render();
             }
         }
 
         shaderProgram.unbind();
+    }
+
+    private void calculateSpriteSheet(GameItem gameItem, Texture text){
+        if(text.getNumCols() < 2 && text.getNumRows() < 2) return;
+        int col = gameItem.getTextPos() % text.getNumCols();
+        int row = gameItem.getTextPos() / text.getNumCols();
+        float textXOffset = (float) col / text.getNumCols();
+        float textYOffset = (float) row / text.getNumRows();
+        shaderProgram.setUniform("textureOffset", new Vector2f(textXOffset, textYOffset));
+        shaderProgram.setUniform("columnsRows", new Vector2f(text.getNumCols(), text.getNumRows()));
+        shaderProgram.setUniform("isSpriteSheet", 1);
     }
 
     @Override

@@ -22,6 +22,9 @@ public class Standard2DShader implements ShaderProgram {
             shader.link();
             shader.createUniform("model");
             shader.createUniform("ortho");
+            shader.createUniform("textureOffset");
+            shader.createUniform("columnsRows");
+            shader.createUniform("isSpriteSheet");
             shader.createUniform("material.texture");
             shader.createUniform("material.color");
         } catch (Exception e) {
