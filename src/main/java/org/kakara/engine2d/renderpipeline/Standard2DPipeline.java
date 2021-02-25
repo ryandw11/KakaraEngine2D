@@ -9,7 +9,6 @@ import org.kakara.engine.gameitems.GameItem;
 import org.kakara.engine.gameitems.Texture;
 import org.kakara.engine.gameitems.mesh.IMesh;
 import org.kakara.engine.lighting.ShadowMap;
-import org.kakara.engine.math.Vector2;
 import org.kakara.engine.math.Vector3;
 import org.kakara.engine.render.RenderPipeline;
 import org.kakara.engine.render.Shader;
@@ -34,12 +33,10 @@ import org.kakara.engine2d.components.MeshRenderer2D;
 public class Standard2DPipeline implements RenderPipeline {
 
     private Shader shaderProgram;
-    private Transformation transformation;
 
     @Override
     public void init(ShaderManager shaderManager, Transformation transformation, FrustumCullingFilter frustumCullingFilter, ShadowMap shadowMap) {
         this.shaderProgram = shaderManager.findShader("Standard2D").getShader();
-        this.transformation = transformation;
     }
 
     @Override
@@ -67,15 +64,22 @@ public class Standard2DPipeline implements RenderPipeline {
         shaderProgram.unbind();
     }
 
-    private void calculateSpriteSheet(GameItem gameItem, Texture text){
-        if(text.getNumCols() < 2 && text.getNumRows() < 2) return;
+    /**
+     * Calculate and set the values for the Shader uniforms which involve the sprite sheet.
+     *
+     * @param gameItem The game item to set the uniforms for.
+     * @param text     The texture for the game item.
+     */
+    private void calculateSpriteSheet(GameItem gameItem, Texture text) {
         int col = gameItem.getTextPos() % text.getNumCols();
         int row = gameItem.getTextPos() / text.getNumCols();
         float textXOffset = (float) col / text.getNumCols();
         float textYOffset = (float) row / text.getNumRows();
         shaderProgram.setUniform("textureOffset", new Vector2f(textXOffset, textYOffset));
         shaderProgram.setUniform("columnsRows", new Vector2f(text.getNumCols(), text.getNumRows()));
-        shaderProgram.setUniform("isSpriteSheet", 1);
+
+        if (text.getNumCols() > 1 && text.getNumRows() > 1)
+            shaderProgram.setUniform("isSpriteSheet", 1);
     }
 
     @Override

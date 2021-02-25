@@ -5,8 +5,12 @@ import org.kakara.engine.input.Input;
 import org.kakara.engine.input.key.KeyCode;
 import org.kakara.engine2d.Abstract2DScene;
 import org.kakara.engine2d.Mesh2D;
+import org.kakara.engine2d.animator.SpriteAnimation;
 import org.kakara.engine2d.components.MeshRenderer2D;
+import org.kakara.engine2d.components.SpriteAnimator;
 import org.kakara.engine2d.primitives.SquareData;
+
+import java.util.Arrays;
 
 public class MainScene extends Abstract2DScene {
     protected MainScene(GameHandler gameHandler) {
@@ -28,7 +32,13 @@ public class MainScene extends Abstract2DScene {
         gameItem.transform.setPosition(600, 500, 0);
         gameItem.transform.setScale(200, 200, 1);
         gameItem.addComponent(FollowMouse.class);
-        gameItem.addComponent(SpriteAnimator.class);
+
+        // The animation for the 2D GameItem.
+        SpriteAnimator spriteAnimator = gameItem.addComponent(SpriteAnimator.class);
+        SpriteAnimation spriteAnimation = new SpriteAnimation("blink", Arrays.asList(0, 1, 4, 5, 6, 8));
+        spriteAnimator.addSpriteAnimation(spriteAnimation);
+
+        spriteAnimator.setCurrentAnimation("blink");
 
         add(gameItem);
 

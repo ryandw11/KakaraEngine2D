@@ -3,6 +3,9 @@ package org.kakara.engine2d;
 /**
  * This class is responsible for some of the global settings of the 2D portion of the
  * engine.
+ *
+ * <p>These settings are similar to the ones provided by the UICanvas. The engine can automatically handle
+ * scale for you.</p>
  */
 public final class GameEngine2D {
     private static boolean isStandard = false;

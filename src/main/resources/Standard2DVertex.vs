@@ -16,7 +16,10 @@ uniform int isSpriteSheet;
 void main()
 {
     gl_Position = ortho * model * vec4(position.xy, 0.0, 1.0);
-    if(isSpriteSheet == 0){
+
+    // Calculate texture coordinates based upon if the object has a sprite sheet.
+
+    if(isSpriteSheet == 0) {
         outTexCoord = texCoord;
     }
     else{
