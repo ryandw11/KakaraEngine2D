@@ -4,9 +4,9 @@ import org.kakara.engine.components.Component;
 import org.kakara.engine.gameitems.GameItem;
 import org.kakara.engine2d.components.MeshRenderer2D;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class is the 2D equivalent of the normal ItemHandler.
@@ -20,7 +20,7 @@ public class Item2DHandler {
     private final List<GameItem> items;
 
     public Item2DHandler() {
-        this.items = new ArrayList<>();
+        this.items = new CopyOnWriteArrayList<>();
     }
 
     /**

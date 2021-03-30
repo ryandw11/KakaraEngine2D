@@ -56,7 +56,8 @@ public class Standard2DPipeline implements RenderPipeline {
                 shaderProgram.setUniform("model", buildModel(item, abstract2DScene.getCamera2D()));
                 shaderProgram.setUniform("material.texture", 0);
                 shaderProgram.setUniform("material.color", mesh2D.getMaterial2D().getColor().getVectorColor());
-                calculateSpriteSheet(item, mesh2D.getMaterial2D().getTexture().get());
+                if(mesh2D.getMaterial2D().getTexture().isPresent())
+                    calculateSpriteSheet(item, mesh2D.getMaterial2D().getTexture().get());
                 mesh2D.render();
             }
         }
